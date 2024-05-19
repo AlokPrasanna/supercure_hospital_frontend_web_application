@@ -6,7 +6,7 @@ import Text from './Text';
 const AppointmentCard = () => {
     const [ImageUrl , setImageUrl] = useState(ImageUrls.user)
   return (
-    <div className='mt-5 ml-5'>
+    <div className='z-0 mt-5 ml-5'>
       <div className='w-[350px] h-[180px] bg-red-300 rounded-[15px] p-2'>
         <div className='flex items-center w-full gap-8 ml-4 h-3/4'>
             <div className=''>

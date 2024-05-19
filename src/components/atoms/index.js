@@ -19,6 +19,7 @@ import NavigationBar from "./NavigationBar";
 import Chat from "./Chat";
 import AppointmentCard from "./AppointmentCard";
 import Footer from "./Footer";
+import SpecializedFieldCard from "./SpecializedFieldCard";
 
 // -------------------- Exports --------------------
 export { 
@@ -41,5 +42,6 @@ export {
     NavigationBar,
     Chat,
     AppointmentCard,
-    Footer
+    Footer,
+    SpecializedFieldCard
 };

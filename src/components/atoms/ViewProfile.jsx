@@ -5,6 +5,7 @@ import Text from './Text';
 
 const ViewProfile = ({ userId , Token}) => {
   console.log(userId);
+  console.log(Token);
   const [ImageUrl, setImageUrl] = useState(ImageUrls.user);
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
@@ -37,7 +38,7 @@ const ViewProfile = ({ userId , Token}) => {
         setContactNumber(data.user.phoneNumber);
         setGender(data.user.gender);
       }else{
-        console.error("Can not fetch data");
+        console.error(data.error.message);
       }
     } catch (error) {
       console.error("Error! " , error);

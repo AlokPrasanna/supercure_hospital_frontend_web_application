@@ -1,15 +1,19 @@
 import React from 'react'
 import { Colors } from '../../constants';
 
-const PrimaryButton = ({buttonTitle , buttonType , buttonColor , onClickFunc}) => {
+const PrimaryButton = ({buttonTitle , buttonType , buttonColor , onClickFunc , height , width , style}) => {
+  const Height = height ? height : '';
+  const Width = width ? width : "120px";
+  const Style = style ? style : '';
   return (
-    <div className='mt-2'>
+    <div className=''>
       <button
-        className='p-3 text-[18px] rounded-[10px] w-[120px]'
+        className={`px-3 py-2 text-[1rem] rounded-[10px] w-[${Width}] ${Style}`} 
         style={{
           color:Colors.white,
           borderColor:buttonColor,
-          backgroundColor:buttonColor
+          backgroundColor:buttonColor,
+          height:`${Height}`
         }}
         type={buttonType}
         onClick={onClickFunc}

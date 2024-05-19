@@ -11,7 +11,7 @@ const InputBox = ({ inputType , placeholderText , backgraoudColor , mrBtm ,  btr
   return (
     <div>
       <input
-        className={`p-2 text-[20px] text-blue-800 italic border-b-[3px] placeholder-blue-800 placeholder:italic  focus:outline-none focus:border-b-green-400 ${width} ${marginbottom} ${borderBottomLefttRadius} ${borderBottomRightRadius} ${borderTopLeftRadius} ${borderTopRightRadius}`}
+        className={`p-2 text-[1rem] text-blue-900 border-b-[3px] placeholder-blue-900  focus:outline-none focus:border-b-green-400 ${width} ${marginbottom} ${borderBottomLefttRadius} ${borderBottomRightRadius} ${borderTopLeftRadius} ${borderTopRightRadius}`}
         style={{
           backgroundColor:backgraoudColor === 'transparent' ? 'transparent' : backgraoudColor,
 

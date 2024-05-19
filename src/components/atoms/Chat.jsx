@@ -7,6 +7,9 @@ import { ImageUrls } from '../../constants';
 const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
+
+  const [symtomCategory , setSymtomCategory] = useState('');
+  
     const handleSendMessage = () => {
         if (inputText.trim() !== '') {
           const newMessage = {
