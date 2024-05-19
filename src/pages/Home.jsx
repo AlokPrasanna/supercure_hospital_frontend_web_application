@@ -37,7 +37,7 @@ const Home = () => {
             />
           </div>
           <div className='mt-5'>
-            <NavigationButton buttonType="button" buttonName="Get start" style={`flex items-ceneter justify-center text-white text-[1.1rem] border-[5px] border-slate-300 w-[100px] hover:border-yellow-300 hover:bg-white hover:text-black`} path={"/register"} />
+            <NavigationButton buttonType="button" buttonName="Get start" style={`flex items-ceneter justify-center duration-300 transform ease-in-out text-white text-[1.1rem] border-[5px] border-slate-300 w-[100px] hover:border-yellow-300 hover:bg-white hover:text-black`} path={"/login"} />
           </div>  
         </div>
       </div>

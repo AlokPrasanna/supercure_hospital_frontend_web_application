@@ -199,13 +199,34 @@ console.log(userDetails);
             <Lable lableName="Password" lableFor="password" />
             <InputBox inputType="password" value={userDetails.password} onChnageFunc={(e) => setUserDetails({ ...userDetails, password:e.target.value})} placeholderText="Enter  password number here" backgraoudColor="transparent" />
           </div>
-          <div className='flex justify-start p-3 mt-4 space-x-2'>
-            <PrimaryButton buttonTitle="Clear" onClickFunc={handelClearButton} buttonType="submit" buttonColor={Colors.red}/>
-            <PrimaryButton buttonTitle="Register" onClickFunc={handelRegisterButton} buttonType="submit" buttonColor={Colors.lightBlue} />
+          <div className='flex justify-start p-3 mt-4 space-x-5'>
+              <PrimaryButton 
+                buttonTitle="Clear" 
+                onClickFunc={handelClearButton} 
+                buttonType="submit" 
+                buttonColor={Colors.red}
+                width="200px" 
+                height="40px" 
+                style={"flex items-center justify-center duration-300 ease-in-out transform hover:scale-110"}
+              />
+              <PrimaryButton 
+                buttonTitle="Register" 
+                onClickFunc={handelRegisterButton} 
+                buttonType="submit" 
+                buttonColor={Colors.lightBlue}
+                width="200px" 
+                height="40px" 
+                style={"flex items-center justify-center duration-300 ease-in-out transform hover:scale-110"} 
+              />
           </div>
           <div className='p-2 mt-4 mb-[80px] z-50'>
             <p className='text-[1rem] font-semibold mb-2'>If you already have an accoun clik Login Button</p>
-            <NavigationButton buttonName="Login" buttonType="button" buttonColor={Colors.green} path={"/login"}/>
+            <NavigationButton 
+              buttonName="Login" 
+              buttonType="button" 
+              style={"flex items-center bg-green-600 duration-300 transform ease-in-out justify-center hover:bg-slate-900 hover:text-white"}
+              path={"/login"}
+            />
           </div>
         </div>
       </div>

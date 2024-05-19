@@ -147,13 +147,36 @@ const Login = () => {
             <Lable lableName="Password" lableFor="password" color="black"/>
             <InputBox inputType="password" value={userDetails.password} onChnageFunc={(e) => setUserDetails({ ...userDetails, password:e.target.value})} placeholderText="Enter password here" backgraoudColor="transparent"/>
           </div>
-          <div className='flex justify-start p-2 mt-2 space-x-2'>
-            <PrimaryButton buttonTitle="Clear" onClickFunc={handelClearButton} buttonType="submit" buttonColor={Colors.red}/>
-            <PrimaryButton buttonTitle="Login" onClickFunc={handelLoginButton} buttonType="submit" buttonColor={Colors.lightBlue} />
+          <div className='flex justify-start p-2 mt-2 space-x-5 '>
+            <PrimaryButton 
+              buttonTitle="Clear" 
+              onClickFunc={handelClearButton} 
+              buttonType="submit" 
+              buttonColor={Colors.red}
+              width="200px" 
+              height="40px" 
+              style={"flex items-center justify-center duration-300 ease-in-out transform hover:scale-110"}
+            />
+            <div>
+              <PrimaryButton 
+                buttonTitle="Login" 
+                onClickFunc={handelLoginButton} 
+                buttonType="submit" 
+                buttonColor={Colors.lightBlue} 
+                width="200px" 
+                height="40px" 
+                style={"flex items-center justify-center duration-300 ease-in-out transform hover:scale-110"}
+              />
+            </div>
           </div>
           <div className='p-2 mt-2'>
             <p className='text-[1rem] font-semibold mb-2'>If you don't have an account click Register button</p>
-            <NavigationButton buttonName="Register" buttonType="button" buttonColor={Colors.green} path={"/register"}/>
+            <NavigationButton 
+              buttonName="Register" 
+              buttonType="button" 
+              path={"/register"}
+              style={"flex items-center bg-green-600 duration-300 transform ease-in-out justify-center hover:bg-slate-900 hover:text-white"}
+            />
           </div>
         </div>
       </div>
