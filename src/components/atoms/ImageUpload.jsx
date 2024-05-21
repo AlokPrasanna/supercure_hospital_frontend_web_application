@@ -12,7 +12,7 @@ const ImageUpload = () => {
         setImage(imageList);
     }
   return (
-    <div>
+    <div className='w-full'>
       <ImageUploading
         multiple
         value={Image}
@@ -29,7 +29,7 @@ const ImageUpload = () => {
         }) => (
           <div className="p-2 ml-8">
             <div 
-                className='transform hover:scale-105'
+                className='w-full duration-300 hover:scale-105'
                 style={isDragging ? { color: 'red' } : undefined}
                 onClick={onImageUpload}
                 {...dragProps} 
@@ -38,10 +38,10 @@ const ImageUpload = () => {
             </div>
             &nbsp;
             {imageList.map((image, index) => (
-              <div className='flex w-96 '>
+              <div className='flex w-96'>
                 <div key={index} className="flex items-center gap-5">
                     <img src={image['data_url']} alt="" width="150" />             
-                    <div className='transform hover:scale-105' onClick={() => onImageRemove(index)}><PrimaryButton buttonTitle="Remove" buttonColor={Colors.red} /></div> 
+                    <PrimaryButton buttonTitle="Remove" buttonColor={Colors.red} style={"duration-300 transform hover:scale-105"} onClickFunc={() => onImageRemove(index)} />
                 </div>
               </div>
             ))}

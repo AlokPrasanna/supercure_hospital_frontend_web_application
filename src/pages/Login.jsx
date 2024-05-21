@@ -22,11 +22,11 @@ const Login = () => {
   useEffect(() => {
     if(Token !==  ""){
       if(UserType === "Admin"){
-        navigate(`/admin/^${UserId}`);
+        navigate(`/admin/${UserId}`);
       }else if(UserType === "Doctor"){
-        navigate(`/doctor/^${UserId}`);
+        navigate(`/doctor/${UserId}`);
       }else if(UserType === "Patient"){
-        navigate(`/patient/^${UserId}`);
+        navigate(`/patient/${UserId}`);
       }
     }
   },[])

@@ -162,19 +162,19 @@ const UpdateProfile = ({userId , updateValue , clearValue , Token}) => {
     console.log(AdminData.name);
     
   return (
-    <div className='flex flex-col w-[600px] h-[620px] bg-slate-200 z-20 p-2 rounded-lg'>
+    <div className='flex flex-col w-[600px] max-h-[90vh] min-h-96 bg-slate-200 z-20 p-2 rounded-lg'>
         <div className='flex flex-col ml-5 mt-7'>
             <div>
                 <div className='font-semibold'>
-                    <Text content=". Update Profile Picture"  color="black" size="21px"/>
+                    <Text content=". Update Profile Picture"  color="black" size="1.2rem"/>
                 </div>
-                <div>
+                <div className=''>
                     <ImageUpload />
                 </div>
             </div>
             <div className='mt-5'>
                 <div className='font-semibold '>
-                    <Text content=". Update details" color="black" size="21px"/>
+                    <Text content=". Update details" color="black" size="1.2rem"/>
                 </div>
                 <div className='mt-2 ml-8' onChange={HandeleDropDownChange}>
                     <DropDownList>

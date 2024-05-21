@@ -96,34 +96,34 @@ const AdminSideBar = ({ userId }) => {
         </div>
       </div>
       {IsProfilePopupOpen && (
-        <div className='fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full shadow-xl'>
-          <div className='absolute p-4 bg-none'>
-            <ViewProfile userId={userId} Token={Token} />
-          </div>
-          <div className='z-50 flex items-end h-[520px] gap-8 mb-5 ml-56 '>
-            <div className='transition duration-300 ease-in-out transform hover:scale-105' onClick={HandleClosePopup} >
-              <PrimaryButton buttonTitle="Cansel" buttonType="submit" buttonColor={Colors.red} />
+        <div className='fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-75'>
+        <div className='relative p-4 bg-white rounded-lg shadow-xl'>
+          <ViewProfile userId={userId} Token={Token} />
+          <div className='flex justify-end gap-4 mt-4'>
+            <div className='transition duration-300 ease-in-out transform hover:scale-105' onClick={HandleClosePopup}>
+              <PrimaryButton buttonTitle="Cancel" buttonType="button" buttonColor={Colors.red} />
             </div>
             <div className='transition duration-300 ease-in-out transform hover:scale-105' onClick={HandelUpdateButton}>
-              <PrimaryButton buttonTitle="Update" buttonType="submit" buttonColor={Colors.green} />
+              <PrimaryButton buttonTitle="Update" buttonType="button" buttonColor={Colors.green} />
             </div>
           </div>
         </div>
+      </div>
       )}
       {IsUpdatePopupOpen && (
-        <div className='fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full shadow-xl'>
-          <div className='absolute p-4 bg-none'>
-            <UpdateProfile userId={userId} Token={Token} updateValue={updateButtonProps.update} clearValue={updateButtonProps.clear} />
-          </div>
-          <div className='z-50 flex items-end h-[520px] gap-8 mt-5 ml-56 '>
-            <div className='transition duration-300 ease-in-out transform hover:scale-105' onClick={HandleClosePopup} >
-              <PrimaryButton buttonTitle="Cansel" buttonType="submit" buttonColor={Colors.red} />
+        <div className='fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-800 bg-opacity-75'>
+        <div className='relative p-4 bg-white rounded-lg shadow-xl'>
+          <UpdateProfile userId={userId} Token={Token} updateValue={updateButtonProps.update} clearValue={updateButtonProps.clear} />
+          <div className='flex justify-end gap-4 mt-4'>
+            <div className='transition duration-300 ease-in-out transform hover:scale-105' onClick={HandleClosePopup}>
+              <PrimaryButton buttonTitle="Cancel" buttonType="button" buttonColor={Colors.red} />
             </div>
             <div className='transition duration-300 ease-in-out transform hover:scale-105' onClick={HandleUpdateButtonFunc}>
-              <PrimaryButton buttonTitle="Save" buttonType="submit" buttonColor={Colors.blue} />
+              <PrimaryButton buttonTitle="Save" buttonType="button" buttonColor={Colors.blue} />
             </div>
           </div>
         </div>
+      </div>
       )}
     </div>
   )
