@@ -79,7 +79,7 @@ const UpdateProfile = ({userId , updateValue , clearValue , Token}) => {
           console.log(data);
           if(data.status){
             setAdminData({
-                image:'',
+                image:data.user.imageUrl,
                 name: data.user.fullName,
                 email: data.user.emailAddress,
                 nic: data.user.nicNumber,
@@ -169,7 +169,7 @@ const UpdateProfile = ({userId , updateValue , clearValue , Token}) => {
                     <Text content=". Update Profile Picture"  color="black" size="1.2rem"/>
                 </div>
                 <div className=''>
-                    <ImageUpload />
+                    <ImageUpload  imageUrl={AdminData.image}/>
                 </div>
             </div>
             <div className='mt-5'>

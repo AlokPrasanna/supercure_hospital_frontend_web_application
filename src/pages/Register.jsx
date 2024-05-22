@@ -99,6 +99,7 @@ const Register = () => {
       gender:userDetails.gender,
       userType:"NewUser",
       dateOfBirth:userDetails.birthday,
+      imageUrl:"",
       dateCreated:formattedDate,
       timeCreated:formattedTime,
       dateUpdated:formattedDate,

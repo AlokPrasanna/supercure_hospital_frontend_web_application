@@ -13,10 +13,6 @@ const DoctorContent = () => {
   };
   
    const [Appointments , setAppointments] = useState([]);
-   const [Name , setName] = useState({
-    doctorName:'',
-    patientName:''
-   })
   
    const notify = (message, type) => {
     switch(type) {
@@ -57,7 +53,6 @@ const DoctorContent = () => {
   
       if(responseData.status){
         setAppointments(responseData.appointments);
-        setName({patientName:responseData.patientName});
       }else{
         notify(responseData.error.message , 'error');
       }
@@ -67,7 +62,7 @@ const DoctorContent = () => {
     }
    }
 
-   console.log(Name);
+   console.log(Appointments);
 
 const renderContent = () => {
   switch(activeId) {
@@ -80,9 +75,10 @@ const renderContent = () => {
                     <div key={index}>
                       <AppointmentCard 
                         userType="Patient" 
-                        patientName={Name.patientName} 
-                        date={appointment.appointmentDate}
-                        time={appointment.appointmentTime} 
+                        patientName={appointment.patientName} 
+                        image={appointment.patientImage}
+                        date={appointment.date}
+                        time={appointment.time} 
                       />
                     </div>
                   ))
@@ -95,9 +91,10 @@ const renderContent = () => {
                   <div key={index}>
                     <AppointmentCard 
                       userType="Patient" 
-                      patientName={Name.patientName} 
-                      date={appointment.appointmentDate}
-                      time={appointment.appointmentTime} 
+                      patientName={appointment.patientName} 
+                      image={appointment.patientImage}
+                      date={appointment.date}
+                      time={appointment.time}
                     />
                   </div>
                 ))

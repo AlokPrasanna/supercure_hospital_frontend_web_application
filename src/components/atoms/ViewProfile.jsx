@@ -6,7 +6,7 @@ import Text from './Text';
 const ViewProfile = ({ userId , Token}) => {
   console.log(userId);
   console.log(Token);
-  const [ImageUrl, setImageUrl] = useState(ImageUrls.user);
+  const [ImageUrl, setImageUrl] = useState("");
   const [Name, setName] = useState("");
   const [Email, setEmail] = useState("");
   const [NIC, setNIC] = useState("");
@@ -32,6 +32,7 @@ const ViewProfile = ({ userId , Token}) => {
       if(data.status){
         setName(data.user.fullName);
         setEmail(data.user.emailAddress);
+        setImageUrl(data.user.imageUrl);
         setNIC(data.user.nicNumber);
         setAddress(data.user.address);
         setDOB(data.user.dateOfBirth);
@@ -48,7 +49,7 @@ const ViewProfile = ({ userId , Token}) => {
   return (
         <div className='flex flex-col w-[600px] h-[520px] bg-slate-200 z-20 p-2 rounded-lg'>
           <div className='flex flex-col items-center mt-5'>
-            <Image src={ImageUrl} alt="User Profile" width='200px' height="200px" />
+            <Image src={ImageUrl !== "" ? ImageUrl : ImageUrls.user} alt="User Profile" style={`w-[200px] h-[200px] rounded-full hover:scale-110 duration-300`} />
           </div>
           <div className='mt-10 font-semibold ml-[100px] '>
             <ul className='list-disc'>

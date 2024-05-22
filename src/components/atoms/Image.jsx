@@ -5,7 +5,7 @@ const Image = ({ src, alt, style }) => {
 
     return (
         <div>
-            <img className={`${Style}`} src={src} alt={alt} />
+            <img className={`${Style}`} src={src} alt={alt} style={{backgroundSize:'cover', backgroundPosition:'center'}} />
         </div>
     );
 }

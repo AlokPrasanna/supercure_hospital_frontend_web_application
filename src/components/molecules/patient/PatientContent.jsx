@@ -13,10 +13,6 @@ const PatientContent = ({userId}) => {
 };
 
  const [Appointments , setAppointments] = useState([]);
- const [Name , setName] = useState({
-  doctorName:'',
-  patientName:''
- })
 
  const notify = (message, type) => {
   switch(type) {
@@ -56,7 +52,6 @@ useEffect(() => {
 
     if(responseData.status){
       setAppointments(responseData.appointments);
-      setName({doctorName:responseData.doctorName});
     }else{
       notify(responseData.error.message , 'error');
     }
@@ -65,8 +60,6 @@ useEffect(() => {
     notify("Something went wrong!",'error');
   }
  }
-
- console.log(Name.doctorName)
 
 const renderContent = () => {
   switch(activeId) {
@@ -78,9 +71,10 @@ const renderContent = () => {
                   Appointments.map((appointment) => (
                     <AppointmentCard 
                       userType="Doctor" 
-                      doctorName={`Dr. ${Name.doctorName}`} 
-                      date={appointment.appointmentDate}
-                      time={appointment.appointmentTime} 
+                      doctorName={`Dr. ${appointment.doctorName}`} 
+                      image={appointment.doctorImage}
+                      date={appointment.date}
+                      time={appointment.time} 
                     />
                   ))
                 ): <p className='flex items-center w-full justify-center h-[80vh] text-[1.3rem] font-semibold text-red-500'>No appointments found!</p>}
