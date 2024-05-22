@@ -12,6 +12,7 @@ import DropDownList from './DropDownList';
 import InputBox from './InputBox'
 import { AppointmentTimes } from '../../data';
 import PrimaryButton from './PrimaryButton';
+import DoctorDetailsCard from './DoctorDetailsCard';
 
 const Chat = () => {
   const authenticationDetails = {
@@ -21,14 +22,19 @@ const Chat = () => {
 
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
-
+  const [replyMessage, setReplyMessage] = useState('Thank you for your message. We will get back to you shortly.');
   const [symtomCategory , setSymtomCategory] = useState(["Cardiology", "Dermatology", "Orthopedics"]);
-  const [doctorsList , setDoctorsList] = useState([{id:1 , name:""}]);
+  const [doctorsList , setDoctorsList] = useState([]);
   const [appointmentDetails , setAppointmentDetails] = useState({
     doctorId:'',
     date:'',
     time:AppointmentTimes[0].value
   });
+
+  const [IconName , setIconName] = useState("chevron-down");
+  const [ShowDoctorDetails , setShowDoctorDetails] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+
 
   const notify = (message, type) => {
     switch(type) {
@@ -58,18 +64,29 @@ const Chat = () => {
     }
   },[symtomCategory])
   
-    const handleSendMessage = () => {
-        if (inputText.trim() !== '') {
-          const newMessage = {
-            position: 'right',
-            type: 'text',
-            text: inputText,
-            date: new Date(),
-          };
-          setMessages([...messages, newMessage]);
-          setInputText('');
-        }
+  const handleSendMessage = () => {
+    if (inputText.trim() !== '') {
+      const newMessage = {
+        position: 'right',
+        type: 'text',
+        title:'You',
+        text: inputText,
       };
+      setMessages([...messages, newMessage]);
+      setInputText('');
+
+      // Automated reply
+      setTimeout(() => {
+        const automatedReply = {
+          position: 'left',
+          title:'Chat Bot',
+          type: 'text',
+          text: replyMessage,
+        };
+        setMessages((prevMessages) => [...prevMessages, automatedReply]);
+      }, 1000);
+    }
+  };
 
   const getDoctorsList = async() => {
     const sendData = {
@@ -88,8 +105,17 @@ const Chat = () => {
         const data = await response.json();
         console.log(data);
         if(data.status && data.doctors.length > 0){
-          const doctors = data.doctors;
-          setDoctorsList(doctors.map((doctor) => ({id:doctor._id , name:doctor.name})));
+          const doctors = data.doctors.map((doctor) => {
+            const details = data.details.find(detail => detail.doctorId === doctor._id);
+            return {
+              id: doctor._id,
+              name: doctor.name,
+              degree: details.degree,
+              specialties: details.specialty
+            };
+          });
+  
+          setDoctorsList(doctors);
         }else{
           notify(data.error.message , "warning");
           console.log(data.error.message);
@@ -99,6 +125,8 @@ const Chat = () => {
         notify("Something went wrong!" , "error");
       }
   }
+
+  console.log(doctorsList)
 
   const handleDoctorSelection = (doctorId) => {
     setAppointmentDetails((prevDetails) => ({
@@ -123,6 +151,17 @@ const Chat = () => {
     }));
   };
 
+  const handelIconName = (doctor) => {
+    setSelectedDoctor(doctor);
+    setIconName("chevron-right");
+    setShowDoctorDetails(true);
+  };
+  
+
+  const handelCanselIcon = () => {
+    setIconName("chevron-down");
+    setShowDoctorDetails(false);
+  }
 
   const handleCanselButton = () => {
     setSymtomCategory([]);
@@ -208,6 +247,7 @@ const Chat = () => {
     }
   }
 
+  console.log("Selected Doctor: ",selectedDoctor);
   return (
     <div>
       <div className='flex flex-col items-center justify-center h-[80vh] '>
@@ -254,9 +294,13 @@ const Chat = () => {
             <div className='mt-5'>
               <Lable lableName="Doctors List" />
               <div className='max-h-[45vh] overflow-y-auto'>
+                <div>
                 {doctorsList.map((doctor,index) => (
                   <div key={index} className='flex items-center justify-between px-3 py-1'>
-                    <p>Dr. {doctor.name}</p>
+                    <div className='flex items-center gap-4'>
+                      <Icon type="regular" name={IconName} color="#2471A3"  size="35px" border="none" onClickFunc={() => handelIconName(doctor)} />
+                      <p>Dr. {doctor.name}</p>
+                    </div>
                     <input 
                       type='checkbox'
                       onChange={() => handleDoctorSelection(doctor.id)} 
@@ -264,6 +308,17 @@ const Chat = () => {
                     />
                   </div>
                 ))}
+                {ShowDoctorDetails && selectedDoctor && (
+                        <div className='flex items-center justify-center w-full h-full px-3 py-2'>
+                          <DoctorDetailsCard
+                            name={selectedDoctor.name}
+                            degree={selectedDoctor.degree}
+                            specialties={selectedDoctor.specialties}
+                            onClickFunc={handelCanselIcon} 
+                          />
+                        </div>
+                      )}
+                </div>
               </div>
             </div>
             <div className='mt-5'>

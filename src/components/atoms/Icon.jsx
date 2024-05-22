@@ -1,9 +1,10 @@
 import React from 'react';
 import 'boxicons'
 
-const Icon = ({type , name , color , size , border , animation}) => {
+const Icon = ({type , name , color , size , border , animation , onClickFunc , hover}) => {
+  const Hover = hover ? hover : "";
   return (
-    <div>
+    <div onClick={onClickFunc} className={`${Hover}`}>
         <box-icon 
             type={type} 
             name={name} 

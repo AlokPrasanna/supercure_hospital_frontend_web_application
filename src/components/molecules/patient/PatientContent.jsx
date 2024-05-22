@@ -83,7 +83,7 @@ const renderContent = () => {
                       time={appointment.appointmentTime} 
                     />
                   ))
-                ): <p className='flex items-center justify-center h-[80vh] text-[1.3rem] font-semibold'>No appointments found!</p>}
+                ): <p className='flex items-center w-full justify-center h-[80vh] text-[1.3rem] font-semibold text-red-500'>No appointments found!</p>}
               </div>) 
     default:
       return (

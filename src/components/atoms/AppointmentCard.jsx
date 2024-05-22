@@ -7,8 +7,12 @@ const AppointmentCard = ({doctorName , patientName , date , time , userType , st
     const [ImageUrl , setImageUrl] = useState(ImageUrls.user);
     const Name = userType === "Doctor" ? doctorName : userType === "Patient" ? patientName : "Unknown";
 
+    console.log(patientName);
+
+    const appointmentTime  = time.split(" - ")[1];
+    console.log(date);
     const getBackgroundColorClass = () => {
-      const appointmentDateTime = new Date(`${date}T${time}`);
+      const appointmentDateTime = new Date(`${date} ${appointmentTime}`);
       const currentDateTime = new Date();
 
       if (status === "Cancel") {
@@ -38,7 +42,7 @@ const AppointmentCard = ({doctorName , patientName , date , time , userType , st
             </div>
         </div>
         <div className='ml-4 text-[1rem] font-semibold'>
-            <Text content={`Doctor: ${Name}`} />
+            <Text content={`${userType}: ${Name}`} />
         </div>
 
       </div>

@@ -67,6 +67,8 @@ const DoctorContent = () => {
     }
    }
 
+   console.log(Name);
+
 const renderContent = () => {
   switch(activeId) {
     case 'analysis':
@@ -74,28 +76,32 @@ const renderContent = () => {
     case 'appointments':
       return (<div className='flex flex-wrap mt-10 ml-20'>
                 {Appointments.length > 0 ? (
-                  Appointments.map((appointment) => (
-                    <AppointmentCard 
-                      userType="Patient" 
-                      doctorName={`${Name.doctorName}`} 
-                      date={appointment.appointmentDate}
-                      time={appointment.appointmentTime} 
-                    />
+                  Appointments.map((appointment , index) => (
+                    <div key={index}>
+                      <AppointmentCard 
+                        userType="Patient" 
+                        patientName={Name.patientName} 
+                        date={appointment.appointmentDate}
+                        time={appointment.appointmentTime} 
+                      />
+                    </div>
                   ))
-                ): <p className='flex items-center justify-center h-[80vh] text-[1.3rem] font-semibold'>No appointments found!</p>}
+                ): <p className='flex items-center justify-center w-full  h-[80vh] text-[1.3rem] font-semibold text-red-500'>No appointments found!</p>}
               </div>)  
     default:
       return (<div className='flex flex-wrap mt-10 ml-20'>
               {Appointments.length > 0 ? (
-                Appointments.map((appointment) => (
-                  <AppointmentCard 
-                    userType="Patient" 
-                    doctorName={`${Name.doctorName}`} 
-                    date={appointment.appointmentDate}
-                    time={appointment.appointmentTime} 
-                  />
+                Appointments.map((appointment , index) => (
+                  <div key={index}>
+                    <AppointmentCard 
+                      userType="Patient" 
+                      patientName={Name.patientName} 
+                      date={appointment.appointmentDate}
+                      time={appointment.appointmentTime} 
+                    />
+                  </div>
                 ))
-              ): <p className='flex items-center justify-center h-[80vh] text-[1.3rem] font-semibold'>No appointments found!</p>}
+              ): <p className='flex items-center justify-center w-full h-[80vh] text-[1.3rem] font-semibold text-red-500'>No appointments found!</p>}
             </div>) 
           }
 };

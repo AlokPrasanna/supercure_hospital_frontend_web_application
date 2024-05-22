@@ -20,6 +20,7 @@ import Chat from "./Chat";
 import AppointmentCard from "./AppointmentCard";
 import Footer from "./Footer";
 import SpecializedFieldCard from "./SpecializedFieldCard";
+import DoctorDetailsCard from "./DoctorDetailsCard";
 
 // -------------------- Exports --------------------
 export { 
@@ -43,5 +44,6 @@ export {
     Chat,
     AppointmentCard,
     Footer,
-    SpecializedFieldCard
+    SpecializedFieldCard,
+    DoctorDetailsCard
 };
