@@ -66,17 +66,19 @@ const renderContent = () => {
     case 'chat':
       return <div><Chat /></div>;
     case 'appointments':
-      return  (<div className='flex flex-wrap mt-10 ml-20'>
+      return  (<div className='flex flex-wrap justify-center mt-10 mb-[60px]'>
                 {Appointments.length > 0 ? (
                   Appointments.map((appointment) => (
-                    <AppointmentCard 
-                      userType="Doctor" 
-                      doctorName={`Dr. ${appointment.doctorName}`} 
-                      image={appointment.doctorImage}
-                      date={appointment.date}
-                      time={appointment.time}
-                      status={appointment.status} 
-                    />
+                    <div key={appointment.id} className='m-4'>
+                      <AppointmentCard 
+                        userType="Doctor" 
+                        doctorName={`Dr. ${appointment.doctorName}`} 
+                        image={appointment.doctorImage}
+                        date={appointment.date}
+                        time={appointment.time}
+                        status={appointment.status} 
+                      />
+                    </div>
                   ))
                 ): <p className='flex items-center w-full justify-center h-[80vh] text-[1.3rem] font-semibold text-red-500'>No appointments found!</p>}
               </div>) 

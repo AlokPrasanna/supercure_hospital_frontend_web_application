@@ -13,6 +13,7 @@ import InputBox from './InputBox'
 import { AppointmentTimes } from '../../data';
 import PrimaryButton from './PrimaryButton';
 import DoctorDetailsCard from './DoctorDetailsCard';
+import { documentId } from 'firebase/firestore';
 
 const Chat = () => {
   const authenticationDetails = {
@@ -303,6 +304,7 @@ const Chat = () => {
                     </div>
                     <input 
                       type='checkbox'
+                      checked={appointmentDetails.doctorId === doctor.id}
                       onChange={() => handleDoctorSelection(doctor.id)} 
                       style={{width:"15px", height:"15px"}}
                     />

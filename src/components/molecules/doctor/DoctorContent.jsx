@@ -96,10 +96,10 @@ const renderContent = () => {
     case 'analysis':
       return <div><LineChart xLable="Date" yLable="Appointments Count" yMin={0} yValues={monthlyAppointmentCounts.counts} xValues={monthlyAppointmentCounts.months}/></div>;
     case 'appointments':
-      return (<div className='flex flex-wrap mt-10 ml-20'>
+      return (<div className='flex flex-wrap justify-center mt-10'>
                 {Appointments.length > 0 ? (
                   Appointments.map((appointment , index) => (
-                    <div key={index}>
+                    <div key={index} className='m-4'>
                       <AppointmentCard 
                         userType="Patient" 
                         patientName={appointment.patientName} 
@@ -113,10 +113,10 @@ const renderContent = () => {
                 ): <p className='flex items-center justify-center w-full  h-[80vh] text-[1.3rem] font-semibold text-red-500'>No appointments found!</p>}
               </div>)  
     default:
-      return (<div className='flex flex-wrap mt-10 ml-20'>
+      return (<div className='flex flex-wrap justify-center mt-10'>
               {Appointments.length > 0 ? (
                 Appointments.map((appointment , index) => (
-                  <div key={index}>
+                  <div key={index} className='m-4'>
                     <AppointmentCard 
                       userType="Patient" 
                       patientName={appointment.patientName} 

@@ -22,7 +22,7 @@ const AppointmentCard = ({doctorName , patientName , date , time , userType , st
 
     const backgroundColorClass = getBackgroundColorClass();
   return (
-    <div className='z-0 mt-5 duration-300 ml-7 hover:scale-105'>
+    <div className='z-0 mt-5 duration-300 hover:scale-105'>
       <div className={`max-w-[400px] min-w-[380px] h-[180px] rounded-[15px] p-2 ${backgroundColorClass}`}>
         <div className='flex items-center justify-between w-[90%] ml-4 gap-9 h-3/4'>
             <div className=''>
