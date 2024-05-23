@@ -146,11 +146,11 @@ const AdminContent = () => {
 				}else{
 				if(data.status){
 					const transformData = data.appointments.map( appointment => ({
-						id: appointment._id,
-						doctor: appointment.fullName,
-						patient:appointment.emailAddress,
-						date:appointment.dateCreated,
-						time:appointment.timeCreated,
+						id: appointment.id,
+						doctor: appointment.doctorName,
+						patient:appointment.patientName,
+						date:appointment.date,
+						time:appointment.time,
 					}));
 					const monthlyCounts = {};
 					transformData.forEach(appointment => {
@@ -160,8 +160,6 @@ const AdminContent = () => {
 					}
 					monthlyCounts[month]++;
 					});
-	
-					console.log("Monthly Counts:", monthlyCounts);
 	
 					const months = Object.keys(monthlyCounts).sort((a, b) => moment(a, 'MMM').month() - moment(b, 'MMM').month());
 					const counts = months.map(month => monthlyCounts[month]);

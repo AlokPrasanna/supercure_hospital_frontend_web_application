@@ -7,12 +7,11 @@ const AppointmentCard = ({doctorName , patientName , date , time , userType , st
     const Name = userType === "Doctor" ? doctorName : userType === "Patient" ? patientName : "Unknown";
 
     const appointmentTime  = time.split(" - ")[1];
-    console.log(date);
     const getBackgroundColorClass = () => {
       const appointmentDateTime = new Date(`${date} ${appointmentTime}`);
       const currentDateTime = new Date();
 
-      if (status === "Cancel") {
+      if (status === "Cansel") {
           return 'bg-yellow-300';
       } else if (appointmentDateTime < currentDateTime) {
           return 'bg-red-300';

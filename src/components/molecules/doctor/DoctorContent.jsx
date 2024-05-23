@@ -3,9 +3,15 @@ import { useSidebar } from '../../../contexts/SidebarContext';
 import { LineChart, AppointmentCard } from '../../atoms';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import moment from 'moment';
 
 const DoctorContent = () => {
   const { activeId } = useSidebar();
+
+  const [monthlyAppointmentCounts, setMonthlyAppointmentCounts] = useState({
+    months: [],
+    counts: []
+  });
 
   const authenticationDetails = {
     userId:localStorage.getItem('userId'),
@@ -50,9 +56,30 @@ const DoctorContent = () => {
       });
   
       const responseData = await response.json();
-  
+ 
       if(responseData.status){
         setAppointments(responseData.appointments);
+
+        const transformData = responseData.appointments.map( appointment => ({
+          id: appointment.id,
+          doctor: appointment.doctorName,
+          patient:appointment.patientName,
+          date:appointment.date,
+          time:appointment.time,
+        }));
+        const monthlyCounts = {};
+        transformData.forEach(appointment => {
+        const month = moment(appointment.date).format('MMM');
+        if (!monthlyCounts[month]) {
+          monthlyCounts[month] = 0;
+        }
+        monthlyCounts[month]++;
+        });
+
+        const months = Object.keys(monthlyCounts).sort((a, b) => moment(a, 'MMM').month() - moment(b, 'MMM').month());
+        const counts = months.map(month => monthlyCounts[month]);
+
+        setMonthlyAppointmentCounts({ months, counts });
       }else{
         notify(responseData.error.message , 'error');
       }
@@ -67,7 +94,7 @@ const DoctorContent = () => {
 const renderContent = () => {
   switch(activeId) {
     case 'analysis':
-      return <div><LineChart /></div>;
+      return <div><LineChart xLable="Date" yLable="Appointments Count" yMin={0} yValues={monthlyAppointmentCounts.counts} xValues={monthlyAppointmentCounts.months}/></div>;
     case 'appointments':
       return (<div className='flex flex-wrap mt-10 ml-20'>
                 {Appointments.length > 0 ? (
@@ -78,7 +105,8 @@ const renderContent = () => {
                         patientName={appointment.patientName} 
                         image={appointment.patientImage}
                         date={appointment.date}
-                        time={appointment.time} 
+                        time={appointment.time}
+                        status={appointment.status} 
                       />
                     </div>
                   ))
@@ -95,6 +123,7 @@ const renderContent = () => {
                       image={appointment.patientImage}
                       date={appointment.date}
                       time={appointment.time}
+                      status={appointment.status}
                     />
                   </div>
                 ))

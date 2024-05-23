@@ -74,7 +74,8 @@ const renderContent = () => {
                       doctorName={`Dr. ${appointment.doctorName}`} 
                       image={appointment.doctorImage}
                       date={appointment.date}
-                      time={appointment.time} 
+                      time={appointment.time}
+                      status={appointment.status} 
                     />
                   ))
                 ): <p className='flex items-center w-full justify-center h-[80vh] text-[1.3rem] font-semibold text-red-500'>No appointments found!</p>}
