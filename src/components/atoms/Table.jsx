@@ -48,7 +48,8 @@ const Table = ({title}) => {
 			cell: row => <CustomMaterialMenu 
 				row={row} 
 				fetchDataCallback={fetchDataCallback}
-				Token={Token} />,
+				Token={Token} 
+				image={row.image}/>,
 			width: '56px',
 		},
 	];
@@ -58,6 +59,7 @@ const Table = ({title}) => {
 		{name:"Patient" , selector: row => row.patient},
 		{name:"Date" , selector: row => row.date},
 		{name:"Time" , selector: row => row.time},
+		{name:"Status" , selector: row => row.status},
 		{
 			cell: row => <CustomMaterialMenu 
 				row={row} 
@@ -129,6 +131,7 @@ const Table = ({title}) => {
 				if(data.status){
 					const transformData = data.users.map( user => ({
 						id: user._id,
+						image:user.imageUrl ? user.imageUrl : "",
 						name: user.fullName,
 						email:user.emailAddress,
 						nic:user.nicNumber,
@@ -201,6 +204,7 @@ const Table = ({title}) => {
 						patient:userMap[appointment.patientId] || appointment.patientId,
 						date:appointment.appointmentDate,
 						time:appointment.appointmentTime,
+						status:appointment.appointmentState ? appointment.appointmentState : "",
 					}));
 	
 					setAppointmentData(transformData);

@@ -49,7 +49,7 @@ const ViewProfile = ({ userId , Token}) => {
   return (
         <div className='flex flex-col w-[600px] h-[520px] bg-slate-200 z-20 p-2 rounded-lg'>
           <div className='flex flex-col items-center mt-5'>
-            <Image src={ImageUrl !== "" ? ImageUrl : ImageUrls.user} alt="User Profile" style={`w-[200px] h-[200px] rounded-full hover:scale-110 duration-300`} />
+            <Image src={ImageUrl ? ImageUrl : ImageUrls.user} alt="User Profile" style={`w-[200px] h-[200px] rounded-full hover:scale-110 duration-300`} />
           </div>
           <div className='mt-10 font-semibold ml-[100px] '>
             <ul className='list-disc'>
