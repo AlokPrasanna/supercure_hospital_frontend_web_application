@@ -10,9 +10,9 @@ const AdminDashboardCard = ({title , count, iconName , url ,height , width}) => 
           <Image src={url} alt={iconName} height={height} width={width} />
         </div>
         <div className='flex flex-col items-center mt-5 font-semibold'>
-          <Text content={title} size='25px' color="white" />
+          <Text content={title} size='1.3rem' color="white" />
           <div className='mt-[10px] border-yellow-600 border-[5px] p-2 rounded-lg hover:border-green-400'>
-            <Text content={count} size="30px" color="white" />
+            <Text content={count} size="1.6rem" color="white" />
           </div>
         </div>
       </div>

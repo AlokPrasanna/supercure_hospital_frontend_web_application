@@ -13,7 +13,7 @@ const PatientHome = () => {
         <div className='w-[280px]'>
           <PatientSideBar  userId={patientId}/>
         </div>
-        <div className="flex-grow">
+        <div className="flex-grow w-11/12">
           <PatientHead />
           <PatientContent />
         </div>

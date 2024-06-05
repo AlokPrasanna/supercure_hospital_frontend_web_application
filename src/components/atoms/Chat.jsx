@@ -1,6 +1,6 @@
 import React , {useEffect, useState} from 'react';
 import 'react-chat-elements/dist/main.css';
-import { MessageList, Input } from 'react-chat-elements';
+import { MessageList, Input ,MessageBox , Button } from 'react-chat-elements';
 import ScrollToBottom from 'react-scroll-to-bottom';
 import { Colors, ImageUrls } from '../../constants';
 import Icon from './Icon';
@@ -13,7 +13,6 @@ import InputBox from './InputBox'
 import { AppointmentTimes } from '../../data';
 import PrimaryButton from './PrimaryButton';
 import DoctorDetailsCard from './DoctorDetailsCard';
-import { documentId } from 'firebase/firestore';
 
 const Chat = () => {
   const authenticationDetails = {
@@ -23,8 +22,7 @@ const Chat = () => {
 
   const [messages, setMessages] = useState([]);
   const [inputText, setInputText] = useState('');
-  const [replyMessage, setReplyMessage] = useState('Thank you for your message. We will get back to you shortly.');
-  const [symtomCategory , setSymtomCategory] = useState(["Cardiology", "Dermatology", "Orthopedics"]);
+  const [symtomCategory , setSymtomCategory] = useState("Cardiology");
   const [doctorsList , setDoctorsList] = useState([]);
   const [appointmentDetails , setAppointmentDetails] = useState({
     doctorId:'',
@@ -32,10 +30,37 @@ const Chat = () => {
     time:AppointmentTimes[0].value
   });
 
+  const [welcome , setWelcome] = useState('');
+
   const [IconName , setIconName] = useState("chevron-down");
+  const [showDoctorList , setshowDoctorList] = useState(false);
   const [ShowDoctorDetails , setShowDoctorDetails] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
 
+  useEffect(() => {
+    const storedMessages = localStorage.getItem('chatMessages');
+    console.log("Stored messages", storedMessages);
+    if (storedMessages) {  // Check if storedMessages is not null
+        try {
+            const parsedMessages = JSON.parse(storedMessages); // Parse the stored messages
+            if (Array.isArray(parsedMessages) && parsedMessages.length > 0) { // Check if parsedMessages is a non-empty array
+                const updatedMessages = parsedMessages.map((msg) => ({
+                    ...msg,
+                    position: msg.sender === 'user' ? 'right' : 'left',
+                }));
+                setMessages(updatedMessages);
+                console.log(updatedMessages);
+            } else {
+                handleSendMessage();
+            }
+        } catch (error) {
+            console.error("Failed to parse stored messages:", error);
+            handleSendMessage();
+        }
+    } else {
+        handleSendMessage();
+    }
+}, []);
 
   const notify = (message, type) => {
     switch(type) {
@@ -56,38 +81,185 @@ const Chat = () => {
     }
   };
 
-  console.log(doctorsList);
-
 
   useEffect(() => {
     if(symtomCategory.length > 0){
       getDoctorsList();
     }
-  },[symtomCategory])
-  
-  const handleSendMessage = () => {
-    if (inputText.trim() !== '') {
-      const newMessage = {
-        position: 'right',
-        type: 'text',
-        title:'You',
-        text: inputText,
-      };
-      setMessages([...messages, newMessage]);
-      setInputText('');
+  },[symtomCategory]);
 
-      // Automated reply
-      setTimeout(() => {
-        const automatedReply = {
-          position: 'left',
-          title:'Chat Bot',
-          type: 'text',
-          text: replyMessage,
-        };
-        setMessages((prevMessages) => [...prevMessages, automatedReply]);
-      }, 1000);
+ const messageList = [
+  {
+    id:0,
+    message:welcome,
+    showButton: false
+  },
+  {
+    id:9,
+    message:"To schedule an appointment, click button below",
+    showButton: true
+  },
+  {
+    id:2,
+    message:"Do you have any other symptoms or concerns?",
+    showButton: false
+  },
+  {
+    id:3,
+    message:"Don't worry. I will help you find a doctor. First, tell me your symptoms.",
+    showButton: false
+  },
+  {
+    id:4,
+    message:"Unable to process your request at the moment. Please check your internet connection and try again.",
+    showButton: false
+  },{
+    id:5,
+    message:"Your appointment has been scheduled.",
+    showButton: false
+  },
+  {
+    id:6,
+    message:"First, tell me your symptoms. Then, you will be shown a button labeled 'Schedule Appointment'. By clicking that, you can choose your doctor and create an appointment.",
+    showButton: false
+  },{
+    id:7,
+    message:"Your message can't recognize me. Could you please send that message again?",
+    showButton: false
+  },{
+    id:8,
+    message:"Hello! How can I assist you?",
+    showButton: false
+  },
+  {
+    id:1,
+    message:`Our system suggests that a ${symtomCategory} is the best specialist for your symptoms.`,
+    showButton: false
+  },
+  {
+    id:10,
+    message:"I'm sorry, but I'm unable to provide that kind of information. If you have any other questions or need assistance with your symptoms, feel free to ask. I'm here to help!",
+    showButton:false
+  },{
+    id:11,
+    message:"My name is Care Bot. You can call me as just Bot.",
+    showButton: false
+  },{
+    id:12,
+    message:"You're welcome. Do you have any other symptoms or concerns? Please tell me. I'm here to help you.",
+    showButton:false
+  },{
+    id:13,
+    message:"Thank you for using our service. If you have further questions, please don't hesitate to ask. Have a wonderful day! Goodbye!",
+    showButton:false
+  }
+  ,{
+    id:14,
+    message:"Ok, If you have further questions, please don't hesitate to ask. Have a wonderful day! Goodbye!",
+    showButton:false
+  }
+ ]
+
+ const getGreeting = () => {
+  const currentHour = new Date().getHours();
+  if (currentHour < 12) {
+    return 'Good Morning';
+  } else if (currentHour < 15) {
+    return 'Good Afternoon';
+  } else {
+    return 'Good Evening';
+  }
+};
+  
+const handleSendMessage = () => {
+  if (welcome === '' && messages.length === 0) {
+
+    setTimeout(() => {
+      const welcomeMessage = `Hi, ${getGreeting()}! Please describe your symptoms, and I'll help you find the right doctor.`;
+      setWelcome(welcomeMessage);
+      setMessages([...messages, { position: 'left', title: 'Chat Bot', type: 'text', sender: 'bot', text: welcomeMessage, date: new Date(), showButton: false, buttonDisable: false }]);
+    }, 2500);
+
+  } else if (inputText.trim() !== '') {
+    const newMessage = {
+      position: 'right',
+      type: 'text',
+      title: 'You',
+      text: inputText,
+      date: new Date(),
+      sender: 'user',
+      showButton: false,
+      buttonDisable: false
+    };
+    const updatedMessages = [...messages, newMessage];
+    setMessages(updatedMessages);
+    setInputText('');
+    localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+
+    // Check for specific keywords to generate automated replies
+    let selectedReplies = [];
+    if (['hi', 'Hi', 'welcome'].some(keyword => inputText.toLowerCase().includes(keyword))) {
+      selectedReplies = messageList.filter(message => message.id === 8);
+    } else if (['other symptoms', 'other'].some(keyword => inputText.toLowerCase().includes(keyword))) {
+      selectedReplies = messageList.filter(message => message.id === 2);
+    } else if (['doctor', 'how to find doctor', 'find doctor'].some(keyword => inputText.toLowerCase().includes(keyword))) {
+      selectedReplies = messageList.filter(message => message.id === 3);
+    } else if (['create appointment', 'appointment', 'new appointment'].some(keyword => inputText.toLowerCase().includes(keyword))) {
+      selectedReplies = messageList.filter(message => message.id === 6);
+    } else if (['contact information', 'email', 'contact number', 'telephone number', 'telephone'].some(keyword => inputText.toLowerCase().includes(keyword))) {
+      selectedReplies = messageList.filter(message => message.id === 10);
+    } else if (['name', 'your name', 'what is your name', 'tell me your name'].some(keyword => inputText.toLowerCase().includes(keyword))) {
+      selectedReplies = messageList.filter(message => message.id === 11);
+    } else if (['thank you', 'thanks for your help', 'thanks', 'for your help', 'your help'].some(keyword => inputText.toLowerCase().includes(keyword))) {
+      selectedReplies = messageList.filter(message => message.id === 12);
+    } else if (['bye', 'tc', 'take care', 'have a nice day', 'have a great day', 'goodbye', 'good night'].some(keyword => inputText.toLowerCase().includes(keyword))) {
+      selectedReplies = messageList.filter(message => message.id === 13);
+    } else if (['no', 'I am good', "I'm good", 'No any pain'].some(keyword => inputText.toLowerCase().includes(keyword))) {
+      const updatedMessages = messages.map(msg => {
+        if (msg.showButton) {
+          return { ...msg, buttonDisable: true };
+        }
+        return msg;
+      });
+
+      setMessages(updatedMessages);
+      localStorage.setItem('chatMessages', JSON.stringify(updatedMessages));
+
+      selectedReplies = messageList.filter(message => message.id === 14);
+    } else {
+      selectedReplies = messageList.filter(message => [1, 9].includes(message.id));
+      selectedReplies.sort((a, b) => a.id - b.id);
     }
-  };
+
+    setTimeout(() => {
+      if (selectedReplies.length > 0) {
+        const automatedReplies = selectedReplies.map(reply => {
+          let messageText = reply.message;
+          return {
+            position: 'left',
+            title: 'Care Bot',
+            type: 'text',
+            sender: 'bot',
+            date: new Date(),
+            text: messageText,
+            showButton: reply.showButton,
+            buttonDisable: false
+          };
+        });
+        const finalMessages = [...updatedMessages, ...automatedReplies];
+        setMessages(finalMessages);
+        localStorage.setItem('chatMessages', JSON.stringify(finalMessages));
+      }
+    }, 1000);
+  }
+};
+
+const handelShowDoctorList = () => {
+  setshowDoctorList(true);
+  setSymtomCategory("Cardiology")
+}
+
+  console.log("INput text ",inputText)
 
   const getDoctorsList = async() => {
     const sendData = {
@@ -158,7 +330,6 @@ const Chat = () => {
     setShowDoctorDetails(true);
   };
   
-
   const handelCanselIcon = () => {
     setIconName("chevron-down");
     setShowDoctorDetails(false);
@@ -171,6 +342,24 @@ const Chat = () => {
       date:'',
       time:AppointmentTimes[0].value
     });
+    const canselMessage = messageList.find(message => message.id === 2);
+    setTimeout(() => {
+      const newMessage = {
+        position: 'left',
+        title: 'Care Bot',
+        type: 'text',
+        sender: 'bot',
+        date: new Date(),
+        text: canselMessage.message,
+        showButton: canselMessage.showButton,
+        buttonDisable: false
+      };
+
+      const finalMessages = [...messages, newMessage];
+
+      setMessages(finalMessages);
+      localStorage.setItem('chatMessages', JSON.stringify(finalMessages));
+    })
   }
 
   const handleSaveButton = () => {
@@ -239,19 +428,79 @@ const Chat = () => {
 
       if(responseData.status){
         notify("Appointment scheduled successfully!", 'success');
+        setshowDoctorList(false);
+
+        const updatedMessages = messages.map(msg => {
+          if (msg.showButton) {
+            return { ...msg, buttonDisable: true };
+          }
+          return msg;
+        });
+
+        const thankYouMessage = messageList.find(message => message.id === 5);
+        setTimeout(() => {
+          const newMessage = {
+            position: 'left',
+            title: 'Care Bot',
+            type: 'text',
+            sender: 'bot',
+            date: new Date(),
+            text: thankYouMessage.message,
+            showButton: thankYouMessage.showButton,
+            buttonDisable: false
+          };
+    
+          const finalMessages = [...updatedMessages, newMessage];
+    
+          setMessages(finalMessages);
+          localStorage.setItem('chatMessages', JSON.stringify(finalMessages));
+        },1000)
       }else{
         notify(responseData.error.message , 'error');
       }
     } catch (error) {
       console.error("Error! ", error);
       notify("Something went wrong!", 'error');
+      setshowDoctorList(false);
+
+      const errorMessage = messageList.find(message => message.id === 4);
+
+      setTimeout(() => {
+        const newMessage = {
+          position: 'left',
+          title: 'Care Bot',
+          type: 'text',
+          sender: 'bot',
+          date: new Date(),
+          text: errorMessage.message,
+          showButton: errorMessage.showButton,
+          buttonDisable: false
+        };
+  
+        const finalMessages = [...messages, newMessage];
+  
+        setMessages(finalMessages);
+        localStorage.setItem('chatMessages', JSON.stringify(finalMessages));
+      })
     }
   }
 
-  console.log("Selected Doctor: ",selectedDoctor);
+  const handelClearButton = () => {
+    localStorage.setItem('chatMessages', '');
+    setMessages([]);
+  }
+  
   return (
     <div>
       <div className='flex flex-col items-center justify-center h-[80vh] '>
+        <div className='flex  w-[800px] justify-end items-center h-12 p-2'>
+          <PrimaryButton 
+            buttonTitle="Clear Chat" 
+            width="120px"
+            onClickFunc={handelClearButton} 
+            style={"flex items-center bg-green-600 duration-300 justify-center hover:bg-slate-900"}
+          />
+        </div>
         <div 
             className='flex flex-col p-4 border-[10px] rounded-[15px] border-orange-600 h-[500px] w-[800px]'
             style={{
@@ -263,12 +512,30 @@ const Chat = () => {
             }}    
         >
             <ScrollToBottom className="flex-grow overflow-y-auto">
-            <MessageList
-                className="message-list"
-                lockable={true}
-                toBottomHeight={'100%'}
-                dataSource={messages}
-            />
+              {messages.map((msg,index) => (
+                <div key={index}>
+                  <MessageBox 
+                    key={index}
+                    position={msg.position}
+                    title={msg.title}
+                    type={msg.type}
+                    text={msg.text}
+                    date={msg.date}
+                    />
+                    {msg.showButton === true && (
+                      <div className='mt-1 mb-1 ml-5'>
+                        <Button
+                          position={msg.position}
+                          text='Shedule Appointment'
+                          onClick={handelShowDoctorList}
+                          backgroundColor='#F6C324'
+                          color='#000000'
+                          disabled={msg.buttonDisable}
+                        />
+                      </div>
+                    )}
+                </div>
+              ))}
             </ScrollToBottom>
             <div className='flex items-center justify-between mt-4'>
                 <div className='border border-gray-300 w-[700px]'>
@@ -283,13 +550,13 @@ const Chat = () => {
                         }}
                     />
                 </div>
-                <div className='duration-300 ease-in-out bg-white rounded-md hover:scale-110' onClick={handleSendMessage}>
+                <div className='duration-300 ease-in-out bg-white rounded-md cursor-pointer hover:scale-110' onClick={handleSendMessage}>
                   <Icon type="regular" name="send" color="#2471A3"  size="35px" border="square" />
                 </div>
             </div>
         </div>
       </div>
-        {symtomCategory.length !== 0 ? (
+        {showDoctorList && symtomCategory.length !== 0 ? (
           <div className='fixed top-0 left-0 z-50 flex items-center justify-center w-full h-full text-slate-600' style={{backgroundColor:"rgba(0,0,0,0.2)"}}>
           <div className='w-1/3 bg-white max-h-[80vh] min-h-[390px] rounded-md px-3 py-2 overflow-y-auto'>
             <div className='mt-5'>

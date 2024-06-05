@@ -174,7 +174,7 @@ console.log(userDetails);
             <div className='flex items-center justify-between h-full'>
               <div>
                 <Lable lableName="NIC Number" lableFor="nic"/>
-                <InputBox inputType="text" value={userDetails.nic} onChnageFunc={(e) => setUserDetails({ ...userDetails, nic:e.target.value})} placeholderText="Enter NIC Number here" backgraoudColor="transparent" inputWidth="w-[250px]"/>
+                <InputBox inputType="text" value={userDetails.nic} onChnageFunc={(e) => setUserDetails({ ...userDetails, nic:e.target.value})} placeholderText="Enter NIC number here" backgraoudColor="transparent" inputWidth="w-[250px]"/>
               </div>
               <div>
                 <Lable lableName="Contact Number" lableFor="phoneNumber"/>
@@ -198,7 +198,7 @@ console.log(userDetails);
               </div>
             </div>
             <Lable lableName="Password" lableFor="password" />
-            <InputBox inputType="password" value={userDetails.password} onChnageFunc={(e) => setUserDetails({ ...userDetails, password:e.target.value})} placeholderText="Enter  password number here" backgraoudColor="transparent" />
+            <InputBox inputType="password" value={userDetails.password} onChnageFunc={(e) => setUserDetails({ ...userDetails, password:e.target.value})} placeholderText="Enter  password here" backgraoudColor="transparent" />
           </div>
           <div className='flex justify-start p-3 mt-4 space-x-5'>
               <PrimaryButton 

@@ -66,10 +66,10 @@ const renderContent = () => {
     case 'chat':
       return <div><Chat /></div>;
     case 'appointments':
-      return  (<div className='flex flex-wrap justify-center mt-10 mb-[60px]'>
+      return  (<div className='flex flex-wrap justify-center mt-10 mb-[60px] w-[100%]'>
                 {Appointments.length > 0 ? (
                   Appointments.map((appointment) => (
-                    <div key={appointment.id} className='m-4'>
+                    <div key={appointment.id} className='z-50 flex justify-center m-4'>
                       <AppointmentCard 
                         userType="Doctor" 
                         doctorName={`Dr. ${appointment.doctorName}`} 
